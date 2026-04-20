@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="main-bg"></div>
 
     <div id="home-screen">
@@ -15,39 +14,33 @@
     </div>
 
     <div id="detail-overlay" class="hidden">
-        <div class="document-container">
-            <div class="top-nav">
-                <div class="nav-left">
-                    <span class="doc-icon">▤</span>
-                    <span class="doc-title">DOCUMENT / <span id="tab-label">표지</span></span>
-                </div>
-                <button class="close-btn" onclick="closeDetail()">EXIT ✕</button>
+        <header class="top-bar">
+            <div class="doc-info">▤ DOCUMENT / <span id="tab-label">표지</span></div>
+            <button class="close-btn" onclick="closeDetail()">EXIT ✕</button>
+        </header>
+
+        <div class="content-container">
+            <nav class="side-menu">
+                <div class="tab-item active" onclick="switchTab(this, '표지')">표지</div>
+                <div class="tab-item" onclick="switchTab(this, '속성')">속성</div>
+                <div class="tab-item" onclick="switchTab(this, '물품')">물품</div>
+                <div class="tab-item" onclick="switchTab(this, '문화')">문화</div>
+            </nav>
+
+            <div class="center-stage">
+                <div class="char-placeholder">이미지 영역</div>
             </div>
 
-            <div class="main-layout">
-                <nav class="side-menu">
-                    <div class="tab-item active" onclick="switchTab(this, '표지')">표지</div>
-                    <div class="tab-item" onclick="switchTab(this, '속성')">속성</div>
-                    <div class="tab-item" onclick="switchTab(this, '물품')">물품</div>
-                    <div class="tab-item" onclick="switchTab(this, '문화')">문화</div>
-                </nav>
-
-                <div class="center-stage">
-                    <div class="char-shadow"></div>
-                    <div class="test-label">캐릭터 이미지 (테스트입니다)</div>
-                </div>
-
-                <div class="info-side">
-                    <div class="info-header">
-                        <h1 id="info-title">VOYAGER</h1>
-                        <p class="sub-title">Star / Intelligence</p>
-                    </div>
-                    <div class="info-body" id="info-content">
-                        <p>이곳에 상세 내용이 출력됩니다.</p>
-                        <p>테스트 데이터입니다. 탭을 눌러보세요.</p>
+            <aside class="info-panel">
+                <div class="info-wrapper" id="info-wrapper">
+                    <h1 id="info-title">VOYAGER</h1>
+                    <div class="info-line"></div>
+                    <div id="info-content">
+                        <p>이곳은 테스트 문구입니다.</p>
+                        <p>오른쪽에서 텍스트가 나타납니다.</p>
                     </div>
                 </div>
-            </div>
+            </aside>
         </div>
     </div>
 
