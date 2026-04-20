@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Reverse 1999 UI Style</title>
+    <title>Reverse 1999 UI Final</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,20 +28,29 @@
             <div class="tab" onclick="switchTab(this, '문화')">문화</div>
         </nav>
 
+        <div class="ui-center-area">
+            <img src="https://via.placeholder.com/600x900/000/fff?text=CHAR+IMG" id="main-char-img">
+            
+            <div id="culture-book" class="hidden">
+                <div class="book-page">
+                    <span class="book-tag">CULTURE ARCHIVE</span>
+                    <h2 class="book-title">엄청난 기적</h2>
+                    <div class="book-line"></div>
+                    <p class="book-desc">
+                        "정말 아름다운 사진입니다."<br><br>
+                        이 사건은 64만 킬로미터 떨어진 곳에서 뒤돌아보는 순간을 찍은 것이다.
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <aside class="ui-info-panel">
             <div id="info-anim-box">
                 <h1 id="info-title">VOYAGER</h1>
                 <div class="divider"></div>
-                <div id="info-content">
-                    <p>테스트 문구입니다.</p>
-                    <p>오른쪽에서 텍스트가 나타납니다.</p>
-                </div>
+                <div id="info-text">이곳에 상세 내용이 출력됩니다.</div>
             </div>
         </aside>
-
-        <div class="ui-center-image">
-            <img src="https://via.placeholder.com/600x800/000000/FFFFFF?text=CHARACTER+IMAGE" id="main-character-img" alt="character">
-        </div>
     </div>
 
     <script src="script.js"></script>
