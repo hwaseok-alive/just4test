@@ -2,47 +2,52 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>캐릭터 도큐먼트 시스템</title>
+    <title>Character Document System</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <div class="main-bg"></div>
+
     <div id="home-screen">
         <div id="char-icon" onclick="openDetail()">💞</div>
-        <p>캐릭터를 클릭하세요</p>
+        <p class="guide-text">TOUCH TO INSPECT</p>
     </div>
 
     <div id="detail-overlay" class="hidden">
-        <div class="container">
-            <header>
-                <button class="close-btn" onclick="closeDetail()">✕</button>
-                <div class="header-title">DOCUMENT / <span id="current-tab-title">표지</span></div>
-            </header>
+        <div class="document-container">
+            <div class="top-nav">
+                <div class="nav-left">
+                    <span class="doc-icon">▤</span>
+                    <span class="doc-title">DOCUMENT / <span id="tab-label">표지</span></span>
+                </div>
+                <button class="close-btn" onclick="closeDetail()">EXIT ✕</button>
+            </div>
 
-            <main class="content-wrapper">
-                <nav class="side-tabs">
-                    <button class="tab-btn active" onclick="switchTab('표지')">표지</button>
-                    <button class="tab-btn" onclick="switchTab('속성')">속성</button>
-                    <button class="tab-btn" onclick="switchTab('물품')">물품</button>
-                    <button class="tab-btn" onclick="switchTab('문화')">문화</button>
+            <div class="main-layout">
+                <nav class="side-menu">
+                    <div class="tab-item active" onclick="switchTab(this, '표지')">표지</div>
+                    <div class="tab-item" onclick="switchTab(this, '속성')">속성</div>
+                    <div class="tab-item" onclick="switchTab(this, '물품')">물품</div>
+                    <div class="tab-item" onclick="switchTab(this, '문화')">문화</div>
                 </nav>
 
-                <section class="char-display">
-                    <div class="char-img-placeholder">
-                        <span style="font-size: 100px;">👤</span>
-                        <p>캐릭터 이미지 영역 (테스트입니다)</p>
-                    </div>
-                </section>
+                <div class="center-stage">
+                    <div class="char-shadow"></div>
+                    <div class="test-label">캐릭터 이미지 (테스트입니다)</div>
+                </div>
 
-                <section class="info-panel">
-                    <h2 id="content-title">표지</h2>
-                    <hr>
-                    <div id="content-body">
-                        테스트 데이터입니다. 캐릭터의 기본 정보를 입력하세요.
+                <div class="info-side">
+                    <div class="info-header">
+                        <h1 id="info-title">VOYAGER</h1>
+                        <p class="sub-title">Star / Intelligence</p>
                     </div>
-                </section>
-            </main>
+                    <div class="info-body" id="info-content">
+                        <p>이곳에 상세 내용이 출력됩니다.</p>
+                        <p>테스트 데이터입니다. 탭을 눌러보세요.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
