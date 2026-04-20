@@ -1,30 +1,35 @@
 function openDetail() {
-    // 상세창 보이기
     document.getElementById('detail-overlay').classList.remove('hidden');
-    // 첫 화면 하트/문구 투명도 10%로 낮추기
-    document.getElementById('home-content').classList.add('low-opacity');
+    document.getElementById('home-content').classList.add('low-opacity'); // 하트 10% 투명도
 }
 
 function closeDetail() {
-    // 상세창 숨기기
     document.getElementById('detail-overlay').classList.add('hidden');
-    // 첫 화면 하트/문구 투명도 다시 100%로 복구
-    document.getElementById('home-content').classList.remove('low-opacity');
+    document.getElementById('home-content').classList.remove('low-opacity'); // 하트 복구
 }
 
 function switchTab(el, name) {
-    // 탭 활성화 변경
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
 
-    // 텍스트 업데이트
     document.getElementById('tab-label').innerText = name;
     document.getElementById('info-title').innerText = name;
-    document.getElementById('info-content').innerHTML = `<p>${name} 섹션의 상세 데이터입니다.</p><p>이미지와 탭이 영상과 유사하게 작동합니다.</p>`;
+    document.getElementById('info-text').innerText = `${name} 섹션의 상세 데이터입니다.`;
 
-    // 오른쪽 텍스트 애니메이션 재실행
-    const box = document.getElementById('info-anim-box');
-    box.style.animation = 'none';
-    void box.offsetWidth; 
-    box.style.animation = 'slideIn 0.5s ease-out';
+    const charImg = document.getElementById('main-char-img');
+    const book = document.getElementById('culture-book');
+
+    if (name === '문화') {
+        charImg.classList.add('blur');
+        book.classList.remove('hidden');
+    } else {
+        charImg.classList.remove('blur');
+        book.classList.add('hidden');
+    }
+
+    // 정보창 애니메이션 리셋
+    const animBox = document.getElementById('info-anim-box');
+    animBox.style.animation = 'none';
+    void animBox.offsetWidth;
+    animBox.style.animation = 'slideIn 0.5s ease-out';
 }
