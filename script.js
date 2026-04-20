@@ -1,11 +1,13 @@
 function openDetail() {
     document.getElementById('detail-overlay').classList.remove('hidden');
-    document.getElementById('home-content').classList.add('low-opacity'); // 하트 10% 투명도
+    // 하트를 10% 투명도로 만듦
+    document.getElementById('home-content').classList.add('low-opacity');
 }
 
 function closeDetail() {
     document.getElementById('detail-overlay').classList.add('hidden');
-    document.getElementById('home-content').classList.remove('low-opacity'); // 하트 복구
+    // 하트를 다시 100%로 복구
+    document.getElementById('home-content').classList.remove('low-opacity');
 }
 
 function switchTab(el, name) {
@@ -14,22 +16,10 @@ function switchTab(el, name) {
 
     document.getElementById('tab-label').innerText = name;
     document.getElementById('info-title').innerText = name;
-    document.getElementById('info-text').innerText = `${name} 섹션의 상세 데이터입니다.`;
+    document.getElementById('info-content').innerHTML = `<p>${name} 섹션 데이터입니다.</p>`;
 
-    const charImg = document.getElementById('main-char-img');
-    const book = document.getElementById('culture-book');
-
-    if (name === '문화') {
-        charImg.classList.add('blur');
-        book.classList.remove('hidden');
-    } else {
-        charImg.classList.remove('blur');
-        book.classList.add('hidden');
-    }
-
-    // 정보창 애니메이션 리셋
-    const animBox = document.getElementById('info-anim-box');
-    animBox.style.animation = 'none';
-    void animBox.offsetWidth;
-    animBox.style.animation = 'slideIn 0.5s ease-out';
+    const box = document.getElementById('info-anim-box');
+    box.style.animation = 'none';
+    void box.offsetWidth; 
+    box.style.animation = 'slideIn 0.5s ease-out';
 }
