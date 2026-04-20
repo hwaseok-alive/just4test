@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>캐릭터 도큐먼트 시스템</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="home-screen">
+        <div id="char-icon" onclick="openDetail()">💞</div>
+        <p>캐릭터를 클릭하세요</p>
+    </div>
+
+    <div id="detail-overlay" class="hidden">
+        <div class="container">
+            <header>
+                <button class="close-btn" onclick="closeDetail()">✕</button>
+                <div class="header-title">DOCUMENT / <span id="current-tab-title">표지</span></div>
+            </header>
+
+            <main class="content-wrapper">
+                <nav class="side-tabs">
+                    <button class="tab-btn active" onclick="switchTab('표지')">표지</button>
+                    <button class="tab-btn" onclick="switchTab('속성')">속성</button>
+                    <button class="tab-btn" onclick="switchTab('물품')">물품</button>
+                    <button class="tab-btn" onclick="switchTab('문화')">문화</button>
+                </nav>
+
+                <section class="char-display">
+                    <div class="char-img-placeholder">
+                        <span style="font-size: 100px;">👤</span>
+                        <p>캐릭터 이미지 영역 (테스트입니다)</p>
+                    </div>
+                </section>
+
+                <section class="info-panel">
+                    <h2 id="content-title">표지</h2>
+                    <hr>
+                    <div id="content-body">
+                        테스트 데이터입니다. 캐릭터의 기본 정보를 입력하세요.
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
