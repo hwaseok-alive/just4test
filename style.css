@@ -1,84 +1,42 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body, html { 
-    width: 100%; height: 100%; background: #000; color: #fff; 
-    font-family: 'Malgun Gothic', sans-serif; overflow: hidden; 
-}
+body, html { width: 100%; height: 100%; background: #000; color: #fff; font-family: 'Malgun Gothic', sans-serif; overflow: hidden; }
 
-.main-bg { position: fixed; width: 100%; height: 100%; background: #111; z-index: -1; }
+/* 도입부: 아까 잘 작동하던 사이즈로 원복 */
+#home-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; text-align: center; }
+#main-enter-img { width: 280px; height: auto; cursor: pointer; transition: 0.3s; }
+.guide-text { font-size: 14px; color: #666; margin-top: 25px; letter-spacing: 2px; }
 
-/* 입장 화면 */
-#home-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; }
-#home-content { transition: opacity 0.5s; text-align: center; }
-#home-content.low-opacity { opacity: 0.1; }
-#main-enter-img { width: 80px; height: auto; cursor: pointer; transition: 0.3s; }
-.guide-text { letter-spacing: 1px; color: #888; margin-top: 20px; font-size: 14px; }
-
-/* 오버레이 */
-#detail-overlay {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.95); z-index: 100; display: flex; flex-direction: column;
-}
+/* 상세 오버레이 */
+#detail-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 100; display: flex; flex-direction: column; }
 #detail-overlay.hidden { display: none; }
-
 .ui-header { width: 100%; padding: 20px 40px; display: flex; justify-content: flex-end; }
-.exit-btn { background: none; border: 1px solid #fff; color: #fff; cursor: pointer; padding: 5px 15px; }
+.exit-btn { background: none; border: 1px solid #fff; color: #fff; cursor: pointer; padding: 5px 15px; font-size: 12px; }
 
-/* 레이아웃 래퍼: 왼쪽 고정, 나머지 영역 배분 */
-.ui-wrapper { 
-    flex: 1; display: flex; align-items: center; 
-    padding: 0 40px; position: relative; overflow: hidden;
-}
+/* 메인 래퍼 */
+.ui-wrapper { flex: 1; display: flex; align-items: center; padding: 0 50px; position: relative; overflow: hidden; }
 
-/* 왼쪽 탭: 고정된 크기 */
-.ui-side-tabs { 
-    display: flex; flex-direction: column; gap: 30px; 
-    width: 150px; min-width: 150px; z-index: 10; 
-}
-.tab { font-size: 18px; color: rgba(255,255,255,0.3) !important; cursor: pointer; transition: 0.3s; border-left: 3px solid transparent; padding-left: 10px; }
-.tab:hover { color: #ff6022 !important; }
+/* 왼쪽 탭 메뉴 */
+.ui-side-tabs { display: flex; flex-direction: column; gap: 35px; width: 180px; min-width: 180px; z-index: 10; }
+.tab { font-size: 20px; color: rgba(255,255,255,0.3) !important; cursor: pointer; transition: 0.3s; border-left: 4px solid transparent; padding-left: 15px; }
 .tab.active { color: #ff6022 !important; border-left-color: #ff6022; font-weight: bold; }
 
-/* 中央 컨텐츠 영역: 탭 메뉴 바로 옆 공간 차지 */
-.ui-content-area { 
-    flex: 1; height: 100%; 
-    display: flex; justify-content: center; align-items: center; 
-    padding: 0 20px; /* 탭 및 우측 패널과의 간격 */
-}
+/* 중앙 컨텐츠 영역 */
+.ui-content-area { flex: 1; height: 100%; display: flex; justify-content: center; align-items: center; transition: all 0.3s; }
+.content-img { max-width: 95%; max-height: 85vh; object-fit: contain; animation: fadeIn 0.6s ease-out; }
 
-/* 표지/캐릭터 이미지: 비율 유지하며 전체 표시 */
-.content-img { 
-    max-width: 100%; max-height: 85vh; 
-    object-fit: contain; animation: charFade 0.6s ease-out forwards; 
-}
-
-/* [신규] 우측 속성 편집 패널 (속성 탭 전용) */
-.property-panel { 
-    width: 400px; /* 너비 확보 */
-    height: 80vh; /* 높이 확보 */
-    padding: 30px; 
-    display: flex; flex-direction: column; gap: 20px;
-    transition: 0.3s; 
-}
-/* 우측 블록 숨김용 클래스 */
+/* [신규] 우측 속성 편집 블록 (속성 탭에서만 보임) */
+.property-panel { width: 450px; height: 80vh; padding: 30px; display: flex; flex-direction: column; gap: 15px; }
 .hidden-block { display: none !important; }
 
-.editor-header { display: flex; flex-direction: column; gap: 10px; }
 .editor-title { font-size: 36px; color: #ff6022 !important; margin: 0; }
-.horizontal-line { width: 100%; height: 2px; background: rgba(255,255,255,0.4); }
-
-/* 편집기 본문: 아주 흐린 배경색 설정 */
-.editor-body { 
-    flex: 1; 
-    background: rgba(255,255,255,0.03); /* 아주 흐린 블럭 배경 */
-    border-radius: 8px; padding: 20px; 
-    overflow-y: auto; /* 내용 많으면 스크롤 */
-}
+.horizontal-line { width: 100%; height: 2px; background: rgba(255,255,255,0.4); margin-bottom: 10px; }
+.editor-body { flex: 1; background: rgba(255,255,255,0.03); border-radius: 8px; padding: 20px; overflow-y: auto; }
 .test-text { font-size: 16px; color: #aaa; line-height: 1.6; }
 
-/* 물품 카드 설정 */
-.item-list { display: flex; gap: 15px; justify-content: center; align-items: center; width: 100%; height: 100%; }
-.item-card { max-height: 60vh; border-radius: 8px; opacity: 0; }
-.item-card.animate { animation: itemFade 0.5s ease-out forwards; }
+/* 물품 카드 */
+.item-list { display: flex; gap: 20px; justify-content: center; align-items: center; }
+.item-card { max-height: 70vh; border-radius: 10px; opacity: 0; }
+.item-card.animate { animation: slideUp 0.5s forwards; }
 
-@keyframes charFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes itemFade { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
