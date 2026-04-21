@@ -4,82 +4,109 @@ body, html {
     font-family: 'Malgun Gothic', sans-serif; overflow: hidden; 
 }
 
-/* 입장 화면: 텍스트 크기 대폭 확대 */
-#home-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; }
-#main-enter-img { width: 120px; cursor: pointer; transition: 0.3s; }
+.main-bg { position: fixed; width: 100%; height: 100%; background: #111; z-index: -1; }
+
+/* [원복] 입장 화면: 이미지와 텍스트를 적당한 크기로 중앙 정렬 */
+#home-screen { 
+    display: flex; flex-direction: column; justify-content: center; align-items: center; 
+    height: 100vh; text-align: center; 
+}
+#home-content { transition: opacity 0.5s; }
+#home-content.low-opacity { opacity: 0.1; }
+
+/* 도입부 이미지 크기 적당하게 수정 */
+#main-enter-img { 
+    width: 80px;  /* 너무 크지 않게 조절 */
+    height: auto; 
+    cursor: pointer; 
+    transition: 0.3s; 
+    margin: 0 auto;
+    display: block;
+}
+#main-enter-img:hover { transform: scale(1.1); }
+
+/* 도입부 텍스트 크기 적당하게 수정 */
 .guide-text { 
-    letter-spacing: 2px; color: #ccc; margin-top: 30px; 
-    font-size: 24px;  /* 기존보다 훨씬 크게 수정 */
-    font-weight: 300;
+    letter-spacing: 1px; color: #888; 
+    margin-top: 20px; font-size: 14px; /* 눈에 띄지만 과하지 않게 */
 }
 
 /* 오버레이 */
 #detail-overlay {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.98); z-index: 100; display: flex; flex-direction: column;
+    background: rgba(0,0,0,0.95); z-index: 100; display: flex; flex-direction: column;
 }
 #detail-overlay.hidden { display: none; }
 
-.ui-header { width: 100%; padding: 30px 50px; display: flex; justify-content: flex-end; }
-.exit-btn { background: none; border: 2px solid #fff; color: #fff; cursor: pointer; padding: 10px 25px; font-size: 18px; }
+.ui-header { width: 100%; padding: 20px 40px; display: flex; justify-content: flex-end; }
+.exit-btn { background: none; border: 1px solid #fff; color: #fff; cursor: pointer; padding: 5px 15px; }
 
-/* 메인 레이아웃: 탭과 이미지 영역 분리 */
+/* 상세페이지 메인 레이아웃 */
 .ui-wrapper { 
-    flex: 1; display: flex; align-items: stretch; 
-    padding: 0 40px 40px 40px; 
+    flex: 1; display: flex; align-items: center; 
+    padding: 0 40px; /* 양옆 여백 */
+    position: relative; overflow: hidden;
 }
 
-/* 왼쪽 탭: 폰트 대폭 확대 및 간격 수정 */
+/* 왼쪽 탭: 고정된 크기 확보 (폰트 크기 18px로 적당하게 원복) */
 .ui-side-tabs { 
-    display: flex; flex-direction: column; justify-content: center;
-    gap: 60px;      /* 탭 사이 간격을 아주 넓게 */
-    width: 250px;   /* 탭 영역 너비 충분히 확보 */
+    display: flex; flex-direction: column; gap: 30px; 
+    width: 150px; /* 왼쪽 고정 너비 */
+    min-width: 150px;
+    z-index: 10; 
 }
 .tab { 
-    font-size: 32px; /* [중요] 폰트 크기 대폭 확대 */
-    color: rgba(255,255,255,0.2) !important; 
-    cursor: pointer; transition: 0.3s; 
-    border-left: 6px solid transparent; 
-    padding-left: 25px; 
+    font-size: 18px; color: rgba(255,255,255,0.3) !important; 
+    cursor: pointer; transition: 0.3s; border-left: 3px solid transparent; padding-left: 10px; 
 }
+.tab:hover { color: #ff6022 !important; }
 .tab.active { color: #ff6022 !important; border-left-color: #ff6022; font-weight: bold; }
 
-/* 중앙 콘텐츠 영역: 화면을 꽉 채우는 이미지 */
+/* 中央 이미지 영역: 왼쪽 탭 바로 옆 공간을 차지하며 중앙 정렬 */
 .ui-content-area { 
-    flex: 1; display: flex; justify-content: center; align-items: center;
-    overflow: hidden; 
+    flex: 1; /* 왼쪽 탭을 제외한 나머지 공간 모두 차지 */
+    height: 100%; 
+    display: flex; 
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center;     /* 세로 중앙 정렬 */
+    padding: 0 20px;         /* 탭 및 우측 패널과의 간격 */
 }
 
-/* 표지 이미지: 화면에 꽉 차게 */
+/* 표지/캐릭터 이미지: 비율 유지하며 전체 이미지 표시 */
 .content-img { 
-    width: 100%; height: 100%;
-    max-width: 95vw;
-    max-height: 85vh;
-    object-fit: contain; /* 잘림 없이 가장 크게 표시 */
-    animation: charFade 0.8s ease-out forwards; 
+    max-width: 100%;   /* 영역 너비에 맞춤 */
+    max-height: 85vh;  /* 영역 높이에 맞춤 (상단바 여유) */
+    object-fit: contain; /* 잘림 없이 비율 유지 */
+    animation: charFade 0.6s ease-out forwards; 
 }
 
-/* 물품 카드 사이즈 확대 */
-.item-list { display: flex; gap: 40px; justify-content: center; align-items: center; width: 100%; }
-.item-card { max-height: 80vh; border-radius: 15px; opacity: 0; }
+/* 오른쪽 패널 (속성 탭에서만 나옴) */
+.ui-info-panel { width: 300px; padding: 20px; transition: 0.3s; }
+.ui-info-panel.hidden-block { display: none !important; }
+#info-title { font-size: 36px; color: #ff6022 !important; margin: 0; }
+.divider { width: 100%; height: 1px; background: rgba(255,255,255,0.3); margin: 15px 0; }
+
+/* 물품 카드 설정 */
+.item-list { display: flex; gap: 15px; justify-content: center; align-items: center; width: 100%; height: 100%; }
+.item-card { 
+    max-height: 60vh; /* 카드 높이 적당하게 조절 */
+    border-radius: 8px; 
+    opacity: 0; 
+}
 .item-card.animate { animation: itemFade 0.5s ease-out forwards; }
 
-/* 오른쪽 정보 패널 */
-.ui-info-panel { width: 400px; padding: 40px; align-self: center; }
-.ui-info-panel.hidden-block { display: none !important; }
-#info-title { font-size: 50px; color: #ff6022 !important; }
-.divider { width: 100%; height: 3px; background: #ff6022; margin: 25px 0; }
-#info-content { font-size: 20px; line-height: 1.6; color: #ddd; }
-
-/* 모바일 대응 */
+/* 모바일 대응 (사이즈 최적화) */
 @media (max-width: 768px) {
-    .ui-wrapper { flex-direction: column; }
-    .ui-side-tabs { width: 100%; flex-direction: row; gap: 10px; margin-bottom: 20px; }
-    .tab { font-size: 18px; padding-left: 0; border-left: none; border-bottom: 4px solid transparent; }
-    .tab.active { border-bottom-color: #ff6022; }
-    .content-img { max-height: 60vh; }
-    .guide-text { font-size: 18px; }
+    .ui-wrapper { flex-direction: column; padding: 10px; justify-content: flex-start; }
+    .ui-side-tabs { width: 100%; min-width: auto; flex-direction: row; justify-content: space-around; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+    .tab { font-size: 16px; border-left: none; border-bottom: 3px solid transparent; padding: 5px; }
+    .tab.active { border-left: none; border-bottom-color: #ff6022; }
+    .ui-content-area { width: 100%; padding: 0; flex: none; height: auto; margin-bottom: 15px; }
+    .content-img { max-height: 50vh; }
+    .ui-info-panel { width: 100%; text-align: center; }
+    .item-list { flex-direction: column; gap: 10px; overflow-y: auto; max-height: 60vh; }
+    .item-card { height: auto; width: 70%; max-height: none; }
 }
 
-@keyframes charFade { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-@keyframes itemFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes charFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes itemFade { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
