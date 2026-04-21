@@ -1,9 +1,7 @@
 function openDetail() {
-    const overlay = document.getElementById('detail-overlay');
-    overlay.classList.remove('hidden');
-    // 열리자마자 '표지' 탭 내용 보여주기
+    document.getElementById('detail-overlay').classList.remove('hidden');
     const firstTab = document.querySelector('.tab');
-    if (firstTab) switchTab(firstTab, '표지');
+    switchTab(firstTab, '표지');
 }
 
 function closeDetail() {
@@ -11,15 +9,14 @@ function closeDetail() {
 }
 
 function switchTab(el, name) {
-    // 1. 모든 탭에서 active 제거
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    // 2. 클릭한 탭에 active 추가
     el.classList.add('active');
 
     const imgContainer = document.getElementById('image-container');
     const propertyEditor = document.getElementById('property-editor');
     
     imgContainer.innerHTML = ''; 
+    // 모든 탭에서 일단 속성창을 숨깁니다 (고정 문제 해결)
     propertyEditor.classList.add('hidden-block');
 
     const cleanName = name.replace('◈ ', '').trim();
@@ -29,6 +26,7 @@ function switchTab(el, name) {
     } 
     else if (cleanName === '속성') {
         imgContainer.innerHTML = `<img src="https://i.imgur.com/l03409J.png" class="content-img">`;
+        // '속성' 탭일 때만 속성창을 보여줍니다
         propertyEditor.classList.remove('hidden-block');
     } 
     else if (cleanName === '물품') {
