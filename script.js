@@ -16,23 +16,21 @@ function switchTab(el, name) {
     const cleanName = name.replace('◈ ', '');
     const infoPanel = document.getElementById('info-panel');
     const imgContainer = document.getElementById('image-container');
-    const titleElement = document.getElementById('info-title');
     
     imgContainer.innerHTML = ''; 
-    infoPanel.classList.remove('hidden-block');
-    titleElement.innerText = cleanName;
+    infoPanel.classList.add('hidden-block');
 
     if (cleanName === '표지') {
-        // 표지: ad45cb.jpg를 중앙 영역 가득 표시
+        // 표지 이미지를 화면 꽉 차게 삽입
         imgContainer.innerHTML = `<img src="https://i.imgur.com/ad45cb.jpg" class="content-img">`;
-        infoPanel.classList.add('hidden-block');
     } 
     else if (cleanName === '속성') {
-        // 속성: 캐릭터 이미지 + 우측 블록 유지
         imgContainer.innerHTML = `<img src="https://i.imgur.com/l03409J.png" class="content-img">`;
+        infoPanel.classList.remove('hidden-block');
+        document.getElementById('info-title').innerText = "속성";
+        document.getElementById('info-content').innerText = "캐릭터의 세부 속성 데이터입니다.";
     } 
     else if (cleanName === '물품') {
-        infoPanel.classList.add('hidden-block');
         imgContainer.innerHTML = `
             <div class="item-list">
                 <img src="https://i.imgur.com/UBQIzgK.png" class="item-card" id="i1">
@@ -43,14 +41,5 @@ function switchTab(el, name) {
         setTimeout(() => document.getElementById('i1').classList.add('animate'), 100);
         setTimeout(() => document.getElementById('i2').classList.add('animate'), 300);
         setTimeout(() => document.getElementById('i3').classList.add('animate'), 500);
-    } 
-    else if (cleanName === '문화') {
-        imgContainer.innerHTML = ''; 
-        infoPanel.classList.add('hidden-block');
     }
-
-    const box = document.getElementById('info-anim-box');
-    box.style.animation = 'none';
-    void box.offsetWidth; 
-    box.style.animation = 'charFade 0.4s ease-out';
 }
