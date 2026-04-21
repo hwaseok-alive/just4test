@@ -1,60 +1,51 @@
-/* ... 기존 공통 스타일 유지 ... */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body, html { width: 100%; height: 100%; background: #000; color: #fff; font-family: 'Malgun Gothic', sans-serif; overflow: hidden; }
 
-/* 도입 화면 정중앙 보장 */
-#home-screen {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    background: #000;
-}
+/* 도입부: 완벽한 중앙 정렬 */
+#home-screen { display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; }
+#home-content { text-align: center; }
+#main-enter-img { width: 70%; max-width: 400px; cursor: pointer; transition: 0.3s; }
+.guide-text { font-size: 20px; color: #666; margin-top: 25px; letter-spacing: 2px; }
 
-/* [중요] 표지 이미지 크기 고정: 화면을 벗어나지 않게 */
-.content-img {
-    max-width: 95%;
-    max-height: 80vh; /* 화면 높이의 80%로 제한하여 EXIT 버튼과 안 겹치게 */
-    object-fit: contain; /* 이미지 비율 유지하며 고정 */
-    display: block;
-}
+/* 오버레이 공통 */
+#detail-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 9999; display: flex; flex-direction: column; }
+#detail-overlay.hidden { display: none !important; }
+.ui-header { width: 100%; padding: 20px; display: flex; justify-content: flex-end; z-index: 10001; }
+.exit-btn { background: none; border: 1px solid #fff; color: #fff; cursor: pointer; padding: 8px 16px; font-size: 14px; }
 
-/* 3단 레이아웃 핵심: 속성창이 있을 때만 flex 비율 작동 */
-.ui-wrapper {
-    flex: 1;
-    display: flex;
-    padding: 20px 60px;
-    align-items: center;
-    justify-content: center; /* 기본 중앙 정렬 */
-    gap: 40px;
-    height: calc(100% - 80px);
-    overflow: hidden;
-}
+/* 메인 레이아웃 (3단) */
+.ui-wrapper { flex: 1; display: flex; padding: 0 60px; align-items: center; gap: 40px; height: calc(100% - 80px); overflow: hidden; }
 
-/* 속성 패널 디자인 (독립된 스타일) */
-.property-panel {
-    flex: 0 0 350px; /* 너비 고정 */
-    height: 70vh;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 30px;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    animation: fadeInRight 0.5s ease forwards;
-}
+/* 1단: 왼쪽 탭 (폰트 대폭 확대) */
+.ui-side-tabs { flex: 0 0 250px; display: flex; flex-direction: column; gap: 40px; }
+.tab { font-size: 32px; color: rgba(255,255,255,0.2); cursor: pointer; border-left: 5px solid transparent; padding-left: 15px; transition: 0.3s; white-space: nowrap; }
+.tab.active { color: #ff6022 !important; border-left-color: #ff6022; font-weight: bold; }
 
-@keyframes fadeInRight {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
-}
+/* 2단: 중앙 이미지 (화면 고정) */
+.ui-content-area { flex: 2; display: flex; justify-content: center; align-items: center; height: 100%; }
+.content-img { max-width: 100%; max-height: 80vh; object-fit: contain; }
 
-/* 모바일 대응: 위아래 겹침 절대 방지 */
+/* 3단: 오른쪽 속성창 (독립 패널) */
+.property-panel { flex: 1; min-width: 320px; max-width: 400px; height: 70vh; background: rgba(255,255,255,0.05); padding: 30px; border-radius: 10px; border: 1px solid #333; }
+.editor-title { font-size: 24px; color: #ff6022; margin-bottom: 15px; }
+
+/* 물품 카드 레이아웃 & 애니메이션 */
+.item-list { display: flex; gap: 20px; justify-content: center; align-items: center; width: 100%; }
+.item-card { height: 70vh; width: auto; opacity: 0; transform: translateY(30px); transition: 0.5s ease; }
+.item-card.show { opacity: 1; transform: translateY(0); }
+
+/* 📱 모바일: 탭 고정 및 겹침 방지 */
 @media (max-width: 1024px) {
-    .ui-wrapper {
-        flex-direction: column;
-        padding: 100px 20px 40px;
-        overflow-y: auto;
+    .ui-wrapper { flex-direction: column; padding: 120px 20px 40px; overflow-y: auto; gap: 40px; }
+    .ui-side-tabs { 
+        position: fixed; top: 0; left: 0; width: 100%; flex-direction: row; 
+        height: 80px; background: #000; justify-content: space-around; 
+        align-items: center; z-index: 10002; border-bottom: 1px solid #222;
     }
-    .content-img {
-        max-height: 50vh; /* 모바일에서는 더 작게 고정 */
-    }
+    .tab { font-size: 18px; border-left: none; padding-left: 0; border-bottom: 4px solid transparent; }
+    .tab.active { border-bottom-color: #ff6022; }
+    .content-img { max-height: 50vh; }
+    .item-list { flex-direction: column; }
+    .item-card { height: auto; width: 90%; }
+    .property-panel { width: 100%; height: auto; flex: none; }
 }
