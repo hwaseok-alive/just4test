@@ -4,76 +4,82 @@ body, html {
     font-family: 'Malgun Gothic', sans-serif; overflow: hidden; 
 }
 
-.main-bg { position: fixed; width: 100%; height: 100%; background: #111; z-index: -1; }
+/* 입장 화면: 텍스트 크기 대폭 확대 */
+#home-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; }
+#main-enter-img { width: 120px; cursor: pointer; transition: 0.3s; }
+.guide-text { 
+    letter-spacing: 2px; color: #ccc; margin-top: 30px; 
+    font-size: 24px;  /* 기존보다 훨씬 크게 수정 */
+    font-weight: 300;
+}
 
 /* 오버레이 */
 #detail-overlay {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.95); z-index: 100; display: flex; flex-direction: column;
+    background: rgba(0,0,0,0.98); z-index: 100; display: flex; flex-direction: column;
 }
 #detail-overlay.hidden { display: none; }
 
-.ui-header { width: 100%; padding: 20px 40px; display: flex; justify-content: flex-end; }
-.exit-btn { background: none; border: 1px solid #fff; color: #fff; cursor: pointer; padding: 5px 15px; }
+.ui-header { width: 100%; padding: 30px 50px; display: flex; justify-content: flex-end; }
+.exit-btn { background: none; border: 2px solid #fff; color: #fff; cursor: pointer; padding: 10px 25px; font-size: 18px; }
 
-/* 레이아웃 래퍼: 왼쪽 탭 메뉴를 위한 공간 제외하고 모두 사용 */
+/* 메인 레이아웃: 탭과 이미지 영역 분리 */
 .ui-wrapper { 
-    flex: 1; display: flex; align-items: center; 
-    padding: 0 20px 0 60px; /* 왼쪽 여백을 조절하여 탭과 이미지 사이 확보 */
-    position: relative; overflow: hidden;
+    flex: 1; display: flex; align-items: stretch; 
+    padding: 0 40px 40px 40px; 
 }
 
-/* 왼쪽 탭: 고정된 크기 확보 */
+/* 왼쪽 탭: 폰트 대폭 확대 및 간격 수정 */
 .ui-side-tabs { 
-    display: flex; flex-direction: column; gap: 40px; 
-    width: 180px; /* 탭 영역 너비 */
-    z-index: 10; 
+    display: flex; flex-direction: column; justify-content: center;
+    gap: 60px;      /* 탭 사이 간격을 아주 넓게 */
+    width: 250px;   /* 탭 영역 너비 충분히 확보 */
 }
-.tab { font-size: 22px; color: rgba(255,255,255,0.3) !important; cursor: pointer; transition: 0.3s; border-left: 4px solid transparent; padding-left: 15px; }
-.tab:hover { color: #ff6022 !important; }
+.tab { 
+    font-size: 32px; /* [중요] 폰트 크기 대폭 확대 */
+    color: rgba(255,255,255,0.2) !important; 
+    cursor: pointer; transition: 0.3s; 
+    border-left: 6px solid transparent; 
+    padding-left: 25px; 
+}
 .tab.active { color: #ff6022 !important; border-left-color: #ff6022; font-weight: bold; }
 
-/* 중앙 콘텐츠 영역: 탭 옆 공간을 꽉 채움 */
+/* 중앙 콘텐츠 영역: 화면을 꽉 채우는 이미지 */
 .ui-content-area { 
-    flex: 1; 
-    height: 100%; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center;
+    flex: 1; display: flex; justify-content: center; align-items: center;
+    overflow: hidden; 
 }
 
-/* [중요] 이미지 사이즈 대폭 확대 */
+/* 표지 이미지: 화면에 꽉 차게 */
 .content-img { 
-    max-width: 95%;   /* 영역의 너비를 거의 다 사용 */
-    max-height: 90vh; /* 화면 높이의 90%까지 키움 */
-    object-fit: contain; /* 비율 유지하며 전체 표시 */
-    animation: charFade 0.6s ease-out forwards; 
+    width: 100%; height: 100%;
+    max-width: 95vw;
+    max-height: 85vh;
+    object-fit: contain; /* 잘림 없이 가장 크게 표시 */
+    animation: charFade 0.8s ease-out forwards; 
 }
 
-/* 물품 카드: 세 장이므로 적당한 크기로 유지하되 더 키움 */
-.item-list { display: flex; gap: 25px; justify-content: center; align-items: center; width: 100%; }
-.item-card { 
-    max-height: 75vh; /* 카드 높이 확대 */
-    border-radius: 12px; 
-    opacity: 0; 
-}
+/* 물품 카드 사이즈 확대 */
+.item-list { display: flex; gap: 40px; justify-content: center; align-items: center; width: 100%; }
+.item-card { max-height: 80vh; border-radius: 15px; opacity: 0; }
 .item-card.animate { animation: itemFade 0.5s ease-out forwards; }
 
-/* 오른쪽 패널 (속성 탭에서만 나옴) */
-.ui-info-panel { width: 350px; padding: 30px; transition: 0.3s; }
+/* 오른쪽 정보 패널 */
+.ui-info-panel { width: 400px; padding: 40px; align-self: center; }
 .ui-info-panel.hidden-block { display: none !important; }
-#info-title { font-size: 45px; color: #ff6022 !important; margin: 0; }
-.divider { width: 100%; height: 2px; background: rgba(255,255,255,0.4); margin: 20px 0; }
+#info-title { font-size: 50px; color: #ff6022 !important; }
+.divider { width: 100%; height: 3px; background: #ff6022; margin: 25px 0; }
+#info-content { font-size: 20px; line-height: 1.6; color: #ddd; }
 
-/* 모바일 대응 (사이즈 최적화) */
+/* 모바일 대응 */
 @media (max-width: 768px) {
-    .ui-wrapper { flex-direction: column; padding: 10px; }
-    .ui-side-tabs { width: 100%; flex-direction: row; justify-content: space-around; margin-bottom: 20px; }
-    .ui-content-area { width: 100%; flex: none; height: auto; }
+    .ui-wrapper { flex-direction: column; }
+    .ui-side-tabs { width: 100%; flex-direction: row; gap: 10px; margin-bottom: 20px; }
+    .tab { font-size: 18px; padding-left: 0; border-left: none; border-bottom: 4px solid transparent; }
+    .tab.active { border-bottom-color: #ff6022; }
     .content-img { max-height: 60vh; }
-    .item-list { flex-direction: column; gap: 15px; overflow-y: auto; max-height: 70vh; }
-    .item-card { width: 85%; max-height: none; }
+    .guide-text { font-size: 18px; }
 }
 
-@keyframes charFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes itemFade { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes charFade { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+@keyframes itemFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
