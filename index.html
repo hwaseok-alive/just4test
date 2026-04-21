@@ -1,47 +1,54 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Character UI</title>
-    <link rel="stylesheet" href="style.css?v=1.3">
-</head>
-<body>
+document.addEventListener('DOMContentLoaded', () => {
+    const mainImg = document.getElementById('main-enter-img');
+    const exitBtn = document.getElementById('global-exit-btn');
 
-    <div id="home-screen">
-        <div id="home-content">
-            <img src="https://i.imgur.com/l03409J.png" id="main-enter-img" alt="Enter Image">
-            <p class="guide-text">삶을 지속하는 것이야말로 고통이다.</p>
-        </div>
-    </div>
+    if (mainImg) {
+        mainImg.onclick = openDetail;
+    }
+    if (exitBtn) {
+        exitBtn.onclick = closeDetail;
+    }
+});
 
-    <div id="detail-overlay" class="hidden">
-        <header class="ui-header">
-            <button id="global-exit-btn" class="exit-btn">EXIT ×</button>
-        </header>
+function openDetail() {
+    const overlay = document.getElementById('detail-overlay');
+    if (overlay) {
+        overlay.classList.remove('hidden');
+        const firstTab = document.querySelector('.tab');
+        if (firstTab) switchTab(firstTab, '표지');
+    }
+}
 
-        <div class="ui-wrapper">
-            <nav class="ui-side-tabs">
-                <div class="tab" onclick="switchTab(this, '표지')">◈ 표지</div>
-                <div class="tab" onclick="switchTab(this, '속성')">◈ 속성</div>
-                <div class="tab" onclick="switchTab(this, '물품')">◈ 물품</div>
-                <div class="tab" onclick="switchTab(this, '문화')">◈ 문화</div>
-            </nav>
+function closeDetail() {
+    const overlay = document.getElementById('detail-overlay');
+    if (overlay) overlay.classList.add('hidden');
+}
 
-            <div id="image-container" class="ui-content-area"></div>
+function switchTab(el, name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
 
-            <aside id="property-editor" class="property-panel hidden-block">
-                <div class="editor-header">
-                    <h1 class="editor-title">속성</h1>
-                    <div class="horizontal-line"></div>
-                </div>
-                <div class="editor-body">
-                    <p class="test-text">테스트 텍스트입니다.</p>
-                </div>
-            </aside>
-        </div>
-    </div>
+    const imgContainer = document.getElementById('image-container');
+    const propertyEditor = document.getElementById('property-editor');
+    
+    imgContainer.innerHTML = ''; 
+    propertyEditor.classList.add('hidden-block');
 
-    <script src="script.js?v=1.3"></script>
-</body>
-</html>
+    const cleanName = name.replace('◈ ', '');
+
+    if (cleanName === '표지') {
+        imgContainer.innerHTML = `<img src="https://i.imgur.com/VWWbpQ7.png" class="content-img">`;
+    } 
+    else if (cleanName === '속성') {
+        imgContainer.innerHTML = `<img src="https://i.imgur.com/l03409J.png" class="content-img">`;
+        propertyEditor.classList.remove('hidden-block');
+    } 
+    else if (cleanName === '물품') {
+        imgContainer.innerHTML = `
+            <div class="item-list">
+                <img src="https://i.imgur.com/UBQIzgK.png" class="item-card" id="c1">
+            </div>
+        `;
+        setTimeout(() => document.getElementById('c1')?.classList.add('animate'), 100);
+    }
+}
