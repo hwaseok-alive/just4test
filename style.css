@@ -1,5 +1,8 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body, html { width: 100%; height: 100%; background: #000; color: #fff; font-family: 'Malgun Gothic', sans-serif; overflow: hidden; }
+body, html { 
+    width: 100%; height: 100%; background: #000; color: #fff; 
+    font-family: 'Malgun Gothic', sans-serif; overflow: hidden; 
+}
 
 .main-bg { position: fixed; width: 100%; height: 100%; background: #111; z-index: -1; }
 
@@ -7,48 +10,81 @@ body, html { width: 100%; height: 100%; background: #000; color: #fff; font-fami
 #home-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; }
 #home-content { transition: opacity 0.5s; text-align: center; }
 #home-content.low-opacity { opacity: 0.1; }
-#main-enter-img { width: 80px; cursor: pointer; transition: 0.3s; }
+#main-enter-img { width: 80px; height: auto; cursor: pointer; transition: 0.3s; }
 .guide-text { letter-spacing: 1px; color: #888; margin-top: 20px; font-size: 14px; }
 
-/* 오버레이 설정 */
+/* 오버레이 */
 #detail-overlay {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: rgba(0,0,0,0.95); z-index: 100; display: flex; flex-direction: column;
 }
 #detail-overlay.hidden { display: none; }
 
-.ui-header { width: 100%; padding: 20px; display: flex; justify-content: flex-end; }
+.ui-header { width: 100%; padding: 20px 40px; display: flex; justify-content: flex-end; }
 .exit-btn { background: none; border: 1px solid #fff; color: #fff; cursor: pointer; padding: 5px 15px; }
 
-/* 메인 레이아웃 */
-.ui-wrapper { flex: 1; display: flex; align-items: center; padding: 0 5%; position: relative; }
+/* [핵심 수정] 레이아웃 래퍼: 왼쪽 고정, 나머지 영역 중앙 정렬 */
+.ui-wrapper { 
+    flex: 1; display: flex; align-items: center; 
+    padding: 0 40px; /* 양옆 여백 */
+    position: relative; overflow: hidden;
+}
 
-.ui-side-tabs { display: flex; flex-direction: column; gap: 30px; min-width: 120px; z-index: 10; }
+/* 왼쪽 탭: 고정된 크기 확보 */
+.ui-side-tabs { 
+    display: flex; flex-direction: column; gap: 30px; 
+    width: 150px; /* 왼쪽 고정 너비 */
+    min-width: 150px;
+    z-index: 10; 
+}
 .tab { font-size: 18px; color: rgba(255,255,255,0.3) !important; cursor: pointer; transition: 0.3s; border-left: 3px solid transparent; padding-left: 10px; }
+.tab:hover { color: #ff6022 !important; }
 .tab.active { color: #ff6022 !important; border-left-color: #ff6022; font-weight: bold; }
 
-/* 이미지 영역 (가운데 정렬 및 탭과의 간격 확보) */
-.ui-content-area { flex: 1; display: flex; justify-content: center; align-items: center; height: 100%; padding: 0 20px; }
-.content-img { max-width: 100%; max-height: 80vh; object-fit: contain; animation: charFade 0.6s ease-out forwards; }
+/* [핵심 수정] 중앙 이미지 영역: 왼쪽 탭 바로 옆 공간을 차지하며 중앙 정렬 */
+.ui-content-area { 
+    flex: 1; /* 왼쪽 탭을 제외한 나머지 공간 모두 차지 */
+    height: 100%; 
+    display: flex; 
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center;     /* 세로 중앙 정렬 */
+    padding: 0 20px;         /* 탭 및 우측 패널과의 간격 */
+}
+
+/* [핵심 수정] 표지/캐릭터 이미지: 전체 이미지가 잘림 없이 중앙에 오도록 */
+.content-img { 
+    max-width: 100%;   /* 영역 너비에 맞춤 */
+    max-height: 85vh;  /* 영역 높이에 맞춤 (상단바 여유) */
+    object-fit: contain; /* [가장 중요] 비율 유지하며 전체 이미지 표시 */
+    animation: charFade 0.6s ease-out forwards; 
+}
 
 /* 오른쪽 패널 */
 .ui-info-panel { width: 300px; padding: 20px; transition: 0.3s; }
-.ui-info-panel.hidden-block { display: none; }
+.ui-info-panel.hidden-block { display: none !important; }
 #info-title { font-size: 36px; color: #ff6022 !important; margin: 0; }
 .divider { width: 100%; height: 1px; background: rgba(255,255,255,0.3); margin: 15px 0; }
 
 /* 물품 카드 설정 */
-.item-list { display: flex; gap: 15px; justify-content: center; width: 100%; }
-.item-card { height: 45vh; border-radius: 8px; opacity: 0; }
+.item-list { display: flex; gap: 15px; justify-content: center; align-items: center; width: 100%; height: 100%; }
+.item-card { 
+    max-height: 60vh; /* 카드 높이 조절 */
+    border-radius: 8px; 
+    opacity: 0; 
+}
 .item-card.animate { animation: itemFade 0.5s ease-out forwards; }
 
 /* 모바일 대응 (768px 이하) */
 @media (max-width: 768px) {
-    .ui-wrapper { flex-direction: column; padding: 10px; }
-    .ui-side-tabs { width: 100%; flex-direction: row; justify-content: space-around; min-width: auto; margin-bottom: 20px; }
+    .ui-wrapper { flex-direction: column; padding: 10px; justify-content: flex-start; }
+    .ui-side-tabs { width: 100%; min-width: auto; flex-direction: row; justify-content: space-around; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+    .tab { font-size: 16px; border-left: none; border-bottom: 3px solid transparent; padding: 5px; }
+    .tab.active { border-left: none; border-bottom-color: #ff6022; }
+    .ui-content-area { width: 100%; padding: 0; flex: none; height: auto; margin-bottom: 15px; }
+    .content-img { max-height: 50vh; }
     .ui-info-panel { width: 100%; text-align: center; }
-    .item-list { flex-direction: column; align-items: center; overflow-y: auto; height: 60vh; }
-    .item-card { height: auto; width: 70%; margin-bottom: 10px; }
+    .item-list { flex-direction: column; gap: 10px; overflow-y: auto; max-height: 60vh; }
+    .item-card { height: auto; width: 70%; max-height: none; }
 }
 
 @keyframes charFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
