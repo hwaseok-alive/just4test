@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Cardo - 폭우의 가장자리</title>
+    <title>Cardo</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="home-screen">
         <div id="home-content">
-            <img src="https://i.imgur.com/LdZDsa0.png" id="main-enter-img" onclick="openDetail()" alt="폭우의 가장자리">
+            <img src="https://i.imgur.com/LdZDsa0.png" id="main-enter-img" onclick="openDetail()" alt="Main Logo">
             <p class="guide-text">삶을 지속하는 것이야말로 고통이다.</p>
         </div>
     </div>
@@ -20,26 +20,7 @@
             <button class="exit-btn" onclick="closeDetail()">EXIT ×</button>
         </header>
 
-        <div class="ui-wrapper">
-            <nav class="ui-side-tabs">
-                <div class="tab" onclick="switchTab(this, '표지')">◈ 표지</div>
-                <div class="tab" onclick="switchTab(this, '속성')">◈ 속성</div>
-                <div class="tab" onclick="switchTab(this, '물품')">◈ 물품</div>
-                <div class="tab" onclick="switchTab(this, '문화')">◈ 문화</div>
-            </nav>
-
-            <div id="image-container" class="ui-content-area"></div>
-
-            <aside id="property-editor" class="property-panel hidden-block">
-                <div class="editor-header">
-                    <h1 class="editor-title">속성</h1>
-                    <div class="horizontal-line"></div>
-                </div>
-                <div class="editor-body">
-                    <p>Cardo의 상세 데이터입니다.</p>
-                </div>
-            </aside>
-        </div>
+        <div id="main-wrapper" class="ui-wrapper"></div>
     </div>
 
     <script src="script.js"></script>
