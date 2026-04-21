@@ -1,8 +1,8 @@
 function openDetail() {
     document.getElementById('detail-overlay').classList.remove('hidden');
-    // 무조건 첫 번째 탭(표지) 실행
-    const tabs = document.querySelectorAll('.tab');
-    switchTab(tabs[0], '표지');
+    // 무조건 '표지' 탭부터 시작
+    const firstTab = document.querySelector('.tab');
+    switchTab(firstTab, '표지');
 }
 
 function closeDetail() {
@@ -10,37 +10,55 @@ function closeDetail() {
 }
 
 function switchTab(el, name) {
-    // 1. 탭 활성화
+    // 1. 모든 탭 비활성화 및 선택 효과
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
 
-    const imgContainer = document.getElementById('image-container');
-    const propertyEditor = document.getElementById('property-editor');
-    
-    // 2. 초기화 (속성창 숨기기 및 이미지 비우기)
-    imgContainer.innerHTML = ''; 
-    propertyEditor.classList.add('hidden-block');
-
+    const uiWrapper = document.querySelector('.ui-wrapper');
     const cleanName = name.replace('◈ ', '').trim();
 
+    // 2. 기존 내용물 싹 비우기 (중앙 이미지 + 우측 속성창 모두 삭제)
+    uiWrapper.innerHTML = `
+        <nav class="ui-side-tabs">
+            <div class="tab ${cleanName === '표지' ? 'active' : ''}" onclick="switchTab(this, '표지')">◈ 표지</div>
+            <div class="tab ${cleanName === '속성' ? 'active' : ''}" onclick="switchTab(this, '속성')">◈ 속성</div>
+            <div class="tab ${cleanName === '물품' ? 'active' : ''}" onclick="switchTab(this, '물품')">◈ 물품</div>
+            <div class="tab ${cleanName === '문화' ? 'active' : ''}" onclick="switchTab(this, '문화')">◈ 문화</div>
+        </nav>
+        <div id="image-container" class="ui-content-area"></div>
+    `;
+
+    const imgContainer = document.getElementById('image-container');
+
+    // 3. 각 탭별 컨텐츠 주입
     if (cleanName === '표지') {
         imgContainer.innerHTML = `<img src="https://i.imgur.com/VWWbpQ7.png" class="content-img">`;
     } 
     else if (cleanName === '속성') {
         imgContainer.innerHTML = `<img src="https://i.imgur.com/l03409J.png" class="content-img">`;
-        propertyEditor.classList.remove('hidden-block');
+        // [핵심] 속성 탭일 때만 속성창 코드 추가
+        const aside = document.createElement('aside');
+        aside.className = 'property-panel';
+        aside.innerHTML = `
+            <h1 class="editor-title" style="color:#ff6022; font-size:24px;">속성</h1>
+            <div style="height:1px; background:#333; margin:15px 0;"></div>
+            <div class="editor-body">
+                <p style="line-height:1.6;">Cardo의 상세 정보입니다.</p>
+            </div>
+        `;
+        uiWrapper.appendChild(aside);
     } 
     else if (cleanName === '물품') {
         imgContainer.innerHTML = `
             <div class="item-list">
-                <img src="https://i.imgur.com/UBQIzgK.png" class="item-card" id="card1">
-                <img src="https://i.imgur.com/UZkRJ1V.png" class="item-card" id="card2">
-                <img src="https://i.imgur.com/Za0T3xy.png" class="item-card" id="card3">
+                <img src="https://i.imgur.com/UBQIzgK.png" class="item-card" id="c1">
+                <img src="https://i.imgur.com/UZkRJ1V.png" class="item-card" id="c2">
+                <img src="https://i.imgur.com/Za0T3xy.png" class="item-card" id="c3">
             </div>
         `;
-        // 순차적 애니메이션 실행
-        setTimeout(() => document.getElementById('card1').classList.add('show'), 100);
-        setTimeout(() => document.getElementById('card2').classList.add('show'), 300);
-        setTimeout(() => document.getElementById('card3').classList.add('show'), 500);
+        // 애니메이션 효과
+        setTimeout(() => document.getElementById('c1').style.cssText = "opacity:1; transform:translateY(0)", 100);
+        setTimeout(() => document.getElementById('c2').style.cssText = "opacity:1; transform:translateY(0)", 300);
+        setTimeout(() => document.getElementById('c3').style.cssText = "opacity:1; transform:translateY(0)", 500);
     }
 }
