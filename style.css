@@ -63,31 +63,33 @@ body, html {
     padding: 20px; border-radius: 8px; overflow-y: auto; 
 }
 
-/* 📱 [3] 모바일 최적화 (핵심 수정) */
+/* 📱 모바일 최적화 수정 (물품 이미지 크기 및 간격 조정) */
 @media (max-width: 768px) {
-    .ui-wrapper { 
-        flex-direction: column; /* 세로로 쌓기 */
-        overflow-y: auto; /* 모바일은 아래로 스크롤 가능하게 */
-        padding: 10px 20px;
-        gap: 30px;
+    /* ... 기존 모바일 설정 유지 ... */
+
+    /* 물품 리스트 레이아웃 */
+    .item-list { 
+        display: flex; 
+        flex-direction: column; /* 세로로 나열 */
+        gap: 15px; /* 이미지 사이 간격 줄임 */
+        padding-top: 20px; /* 상단 탭과의 여유 공간 확보 */
+        align-items: center;
+        width: 100%;
     }
 
-    /* 탭 메뉴를 상단 가로 바 형태로 변경 */
-    .ui-side-tabs { 
-        width: 100%; min-width: 100%; flex-direction: row; 
-        justify-content: space-between; border-bottom: 1px solid #333; 
-        padding-bottom: 10px; position: sticky; top: 0; background: #000; z-index: 10;
+    /* [핵심] 물품 이미지 크기 제한 */
+    .item-card { 
+        width: 85% !important; /* 화면 너비에 맞게 조정 */
+        height: auto !important;
+        max-height: 45vh !important; /* 화면 높이의 절반 이하로 제한하여 상단 침범 방지 */
+        object-fit: contain;
+        margin: 0 auto;
     }
-    .tab { font-size: 15px; border-left: none; border-bottom: 3px solid transparent; padding: 5px 0; }
-    .tab.active { border-bottom-color: #ff6022; }
 
-    /* 이미지 크기 조정 */
-    .ui-content-area { width: 100%; order: 2; } /* 캐릭터가 텍스트보다 위에 오게 조정 가능 */
-    .content-img { max-height: 60vh; width: 100%; }
-
-    /* 속성창을 이미지 아래로 */
-    .property-panel { width: 100%; min-width: 100%; order: 3; padding-bottom: 50px; }
-    .editor-title { font-size: 28px; }
+    /* 중앙 컨텐츠 영역의 높이 제한 */
+    .ui-content-area {
+        height: auto;
+        max-height: calc(100vh - 120px); /* 상단 탭 공간 제외하고 출력 */
+        overflow-y: auto; /* 내용이 길면 내부에서 스크롤 */
+    }
 }
-
-@keyframes charFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
