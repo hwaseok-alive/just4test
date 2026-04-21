@@ -1,3 +1,40 @@
+// 페이지 로드 시 이벤트 리스너를 확실하게 연결
+window.onload = function() {
+    const mainImg = document.getElementById('main-enter-img');
+    const exitBtn = document.querySelector('.exit-btn');
+
+    // 도입부 이미지 클릭 시 상세페이지 열기
+    if (mainImg) {
+        mainImg.addEventListener('click', openDetail);
+        mainImg.addEventListener('touchstart', openDetail); // 모바일 터치 대응
+    }
+
+    // EXIT 버튼 클릭 시 닫기
+    if (exitBtn) {
+        exitBtn.addEventListener('click', closeDetail);
+        exitBtn.addEventListener('touchstart', closeDetail); // 모바일 터치 대응
+    }
+};
+
+function openDetail() {
+    const overlay = document.getElementById('detail-overlay');
+    const homeContent = document.getElementById('home-content');
+    
+    overlay.classList.remove('hidden');
+    homeContent.classList.add('low-opacity');
+    
+    // 열릴 때 첫 번째 탭(표지) 자동 선택
+    const firstTab = document.querySelector('.tab');
+    if (firstTab) switchTab(firstTab, '표지');
+}
+
+function closeDetail() {
+    const overlay = document.getElementById('detail-overlay');
+    const homeContent = document.getElementById('home-content');
+    
+    overlay.classList.add('hidden');
+    homeContent.classList.remove('low-opacity');
+}
 function openDetail() {
     document.getElementById('detail-overlay').classList.remove('hidden');
     document.getElementById('home-content').classList.add('low-opacity');
