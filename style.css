@@ -1,61 +1,84 @@
-/* 기본 설정 */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body, html { width: 100%; height: 100%; background: #000; color: #fff; font-family: 'Malgun Gothic', sans-serif; overflow: hidden; }
+/* style.css */
 
-/* 도입 화면: 이미지 크게, 텍스트 작게, 전체 중앙 정렬 */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body, html { 
+    width: 100%; height: 100%; background: #000; color: #fff; 
+    font-family: 'Malgun Gothic', sans-serif; overflow: hidden; 
+}
+
+/* [도입부] 중앙 정렬 및 사이즈 최적화 */
 #home-screen { 
     display: flex; flex-direction: column; justify-content: center; align-items: center; 
     height: 100vh; text-align: center; 
 }
-#home-content { transition: opacity 0.5s; }
-#home-content.low-opacity { opacity: 0.1; }
-
 #main-enter-img { 
-    width: 280px; /* 이미지는 적당히 큼직하게 */
+    width: 250px; /* 적당히 큼직하게 */
     height: auto; 
     cursor: pointer; 
-    transition: transform 0.3s;
+    transition: 0.3s; 
 }
-#main-enter-img:hover { transform: scale(1.05); }
+.guide-text { font-size: 14px; color: #666; margin-top: 20px; letter-spacing: 2px; }
 
-.guide-text { 
-    font-size: 14px; /* 텍스트는 작게 */
-    color: #666; 
-    margin-top: 25px; 
-    letter-spacing: 2px; 
-}
-
-/* 상세 오버레이 레이아웃 */
+/* [상세 페이지] 레이아웃 */
 #detail-overlay {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     background: rgba(0,0,0,0.95); z-index: 100; display: flex; flex-direction: column;
 }
-#detail-overlay.hidden { display: none; }
-
 .ui-header { width: 100%; padding: 20px 40px; display: flex; justify-content: flex-end; }
-.exit-btn { background: none; border: 1px solid #fff; color: #fff; cursor: pointer; padding: 5px 15px; font-size: 12px; }
+.exit-btn { background: none; border: 1px solid #fff; color: #fff; cursor: pointer; padding: 5px 15px; font-size: 12pt; }
 
-/* 컨텐츠 영역: 탭과 이미지가 조화롭게 배치 */
-.ui-wrapper { flex: 1; display: flex; align-items: center; padding: 0 50px; position: relative; }
+.ui-wrapper { 
+    flex: 1; display: flex; align-items: center; 
+    padding: 0 40px; position: relative; overflow: hidden;
+}
 
-/* 왼쪽 탭 */
-.ui-side-tabs { display: flex; flex-direction: column; gap: 35px; width: 180px; z-index: 10; }
-.tab { font-size: 20px; color: rgba(255,255,255,0.3) !important; cursor: pointer; transition: 0.3s; border-left: 4px solid transparent; padding-left: 15px; }
+/* 왼쪽 탭 영역 */
+.ui-side-tabs { 
+    display: flex; flex-direction: column; gap: 30px; 
+    width: 150px; min-width: 150px; z-index: 10; 
+}
+.tab { 
+    font-size: 18px; color: rgba(255,255,255,0.3) !important; 
+    cursor: pointer; transition: 0.3s; border-left: 3px solid transparent; padding-left: 10px; 
+}
 .tab.active { color: #ff6022 !important; border-left-color: #ff6022; font-weight: bold; }
 
-/* 중앙 이미지 배치 (절대 중앙) */
+/* [핵심 수정] 이미지 컨테이너: 노란 선 영역만큼 꽉 채우기 */
 .ui-content-area { 
-    flex: 1; height: 100%; display: flex; justify-content: center; align-items: center; 
+    flex: 1; 
+    height: 100%; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    padding: 20px; /* 약간의 여백만 남김 */
 }
+
+/* [핵심 수정] 이미지 사이즈: 부모 박스 안에서 최대치로 확장 */
 .content-img { 
-    max-width: 90%; max-height: 85vh; object-fit: contain; 
-    animation: fadeIn 0.6s ease-out; 
+    width: auto;
+    height: auto;
+    max-width: 95%;    /* 가로로 노란 선까지 확장 */
+    max-height: 90vh;  /* 세로로 화면의 90%까지 확장 */
+    object-fit: contain; 
+    animation: charFade 0.6s ease-out forwards; 
 }
 
-/* 물품 리스트 */
-.item-list { display: flex; gap: 20px; justify-content: center; align-items: center; }
-.item-card { max-height: 70vh; border-radius: 10px; opacity: 0; }
-.item-card.animate { animation: slideUp 0.5s forwards; }
+/* 우측 정보 패널 (속성 탭 전용) */
+.ui-info-panel { width: 350px; padding: 20px; z-index: 5; }
+.ui-info-panel.hidden-block { display: none !important; }
+#info-title { font-size: 15pt; color: #ff6022 !important; margin-bottom: 10px; }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+/* 물품 카드 레이아웃 */
+.item-list { display: flex; gap: 20px; justify-content: center; align-items: center; width: 100%; }
+.item-card { max-height: 75vh; border-radius: 8px; opacity: 0; }
+.item-card.animate { animation: itemFade 0.5s ease-out forwards; }
+
+@keyframes charFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes itemFade { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .ui-wrapper { flex-direction: column; }
+    .ui-side-tabs { width: 100%; flex-direction: row; justify-content: space-around; margin-bottom: 20px; }
+    .content-img { max-height: 50vh; }
+}
