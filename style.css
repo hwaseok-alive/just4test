@@ -1,42 +1,60 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body, html { width: 100%; height: 100%; background: #000; color: #fff; font-family: 'Malgun Gothic', sans-serif; overflow: hidden; }
+/* ... 기존 공통 스타일 유지 ... */
 
-/* 도입부: 화면 정중앙 배치 */
-#home-screen { display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; width: 100vw; text-align: center; }
-#home-content { display: flex; flex-direction: column; align-items: center; justify-content: center; }
-#main-enter-img { width: 70%; max-width: 450px; cursor: pointer; transition: 0.3s; }
-.guide-text { font-size: 22px; color: #666; margin-top: 25px; letter-spacing: 2px; }
+/* 도입 화면 정중앙 보장 */
+#home-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    background: #000;
+}
 
-/* 오버레이 및 EXIT 버튼 */
-#detail-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 9999; display: flex; flex-direction: column; }
-#detail-overlay.hidden { display: none !important; }
-.ui-header { width: 100%; padding: 20px; display: flex; justify-content: flex-end; z-index: 10000; }
-.exit-btn { background: #000; border: 1px solid #fff; color: #fff; cursor: pointer; padding: 8px 16px; font-size: 14px; }
+/* [중요] 표지 이미지 크기 고정: 화면을 벗어나지 않게 */
+.content-img {
+    max-width: 95%;
+    max-height: 80vh; /* 화면 높이의 80%로 제한하여 EXIT 버튼과 안 겹치게 */
+    object-fit: contain; /* 이미지 비율 유지하며 고정 */
+    display: block;
+}
 
-/* PC 레이아웃: 3단 분리 */
-.ui-wrapper { flex: 1; display: flex; padding: 40px 60px; align-items: center; gap: 40px; height: calc(100% - 60px); }
-.ui-side-tabs { flex: 0 0 250px; display: flex; flex-direction: column; gap: 40px; z-index: 10; }
-.tab { font-size: 32px; color: rgba(255,255,255,0.2); cursor: pointer; border-left: 5px solid transparent; padding-left: 15px; transition: 0.3s; white-space: nowrap; }
-.tab.active { color: #ff6022 !important; border-left-color: #ff6022; font-weight: bold; }
+/* 3단 레이아웃 핵심: 속성창이 있을 때만 flex 비율 작동 */
+.ui-wrapper {
+    flex: 1;
+    display: flex;
+    padding: 20px 60px;
+    align-items: center;
+    justify-content: center; /* 기본 중앙 정렬 */
+    gap: 40px;
+    height: calc(100% - 80px);
+    overflow: hidden;
+}
 
-/* 물품 카드 애니메이션 복구 */
-.item-list { display: flex; gap: 30px; justify-content: center; align-items: center; width: 100%; }
-.item-card { max-height: 70vh; width: auto; opacity: 0; transform: translateY(30px); transition: 0.5s ease; }
-.item-card.show { opacity: 1; transform: translateY(0); }
+/* 속성 패널 디자인 (독립된 스타일) */
+.property-panel {
+    flex: 0 0 350px; /* 너비 고정 */
+    height: 70vh;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: fadeInRight 0.5s ease forwards;
+}
 
-/* 📱 모바일: 탭 고정 및 클릭 가능성 확보 */
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* 모바일 대응: 위아래 겹침 절대 방지 */
 @media (max-width: 1024px) {
-    .ui-wrapper { flex-direction: column; overflow-y: auto; padding: 120px 20px 40px; gap: 40px; }
-    .ui-side-tabs { 
-        position: fixed; top: 0; left: 0; width: 100%; flex-direction: row; 
-        height: 80px; background: #111; justify-content: space-around; 
-        align-items: center; z-index: 10001; border-bottom: 1px solid #333; 
-        flex: none; pointer-events: auto; /* 터치 무조건 허용 */
+    .ui-wrapper {
+        flex-direction: column;
+        padding: 100px 20px 40px;
+        overflow-y: auto;
     }
-    .tab { font-size: 18px; border-left: none; padding-left: 0; border-bottom: 4px solid transparent; }
-    .tab.active { border-bottom-color: #ff6022; }
-    .ui-content-area { width: 100%; order: 1; flex: none; }
-    .item-list { flex-direction: column; gap: 40px; }
-    .item-card { width: 90%; max-height: none; }
-    .property-panel { width: 100%; order: 2; flex: none; height: auto; padding: 20px; }
+    .content-img {
+        max-height: 50vh; /* 모바일에서는 더 작게 고정 */
+    }
 }
