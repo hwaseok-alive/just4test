@@ -1,14 +1,7 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const mainImg = document.getElementById('main-enter-img');
-    const exitBtn = document.getElementById('global-exit-btn');
-
-    if (mainImg) mainImg.onclick = openDetail;
-    if (exitBtn) exitBtn.onclick = closeDetail;
-});
-
 function openDetail() {
-    document.getElementById('detail-overlay').classList.remove('hidden');
-    // 시작할 때 무조건 '표지' 탭 활성화
+    const overlay = document.getElementById('detail-overlay');
+    overlay.classList.remove('hidden');
+    // 열리자마자 '표지' 탭 내용 보여주기
     const firstTab = document.querySelector('.tab');
     if (firstTab) switchTab(firstTab, '표지');
 }
@@ -18,8 +11,9 @@ function closeDetail() {
 }
 
 function switchTab(el, name) {
-    // 모든 탭 비활성화
+    // 1. 모든 탭에서 active 제거
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    // 2. 클릭한 탭에 active 추가
     el.classList.add('active');
 
     const imgContainer = document.getElementById('image-container');
@@ -38,12 +32,11 @@ function switchTab(el, name) {
         propertyEditor.classList.remove('hidden-block');
     } 
     else if (cleanName === '물품') {
-        // 물품 리스트 재생성
         imgContainer.innerHTML = `
             <div class="item-list">
-                <img src="https://i.imgur.com/UBQIzgK.png" class="item-card" alt="물품1">
-                <img src="https://i.imgur.com/UZkRJ1V.png" class="item-card" alt="물품2">
-                <img src="https://i.imgur.com/Za0T3xy.png" class="item-card" alt="물품3">
+                <img src="https://i.imgur.com/UBQIzgK.png" class="item-card">
+                <img src="https://i.imgur.com/UZkRJ1V.png" class="item-card">
+                <img src="https://i.imgur.com/Za0T3xy.png" class="item-card">
             </div>
         `;
     }
